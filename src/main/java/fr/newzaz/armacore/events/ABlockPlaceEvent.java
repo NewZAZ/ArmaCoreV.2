@@ -1,6 +1,7 @@
 package fr.newzaz.armacore.events;
 
 import fr.newzaz.armacore.commands.AModerationCommand;
+import fr.newzaz.armacore.data.PlayerListener;
 import fr.newzaz.armacore.utils.AMessageUtils;
 import fr.newzaz.armacore.utils.APermissionUtils;
 import org.bukkit.entity.Player;
@@ -13,8 +14,8 @@ public class ABlockPlaceEvent implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e){
         Player p = e.getPlayer();
-
-        if(AModerationCommand.ModerationUUID.contains(p.getUniqueId())){
+        PlayerListener pl = new PlayerListener();
+        if(pl.getModerationUUID().contains(p.getUniqueId())){
             e.setCancelled(true);
             return;
         }

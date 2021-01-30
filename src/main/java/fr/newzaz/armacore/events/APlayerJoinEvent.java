@@ -1,6 +1,7 @@
 package fr.newzaz.armacore.events;
 
 import fr.newzaz.armacore.commands.AModerationCommand;
+import fr.newzaz.armacore.data.PlayerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,10 +12,10 @@ public class APlayerJoinEvent implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
-
+        PlayerListener pl = new PlayerListener();
         Player p = e.getPlayer();
         for(Player pv : Bukkit.getOnlinePlayers()){
-            if(AModerationCommand.playerUUIDVanish.contains(pv.getUniqueId())){
+            if(pl.getPlayerUUIDVanish().contains(pv.getUniqueId())){
                 p.hidePlayer(pv);
             }
         }
