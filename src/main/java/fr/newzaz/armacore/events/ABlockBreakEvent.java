@@ -2,6 +2,7 @@ package fr.newzaz.armacore.events;
 
 import fr.newzaz.armacore.Main;
 import fr.newzaz.armacore.commands.AModerationCommand;
+import fr.newzaz.armacore.data.PlayerListener;
 import fr.newzaz.armacore.runnables.ABBRunnable;
 import fr.newzaz.armacore.utils.AMessageUtils;
 import fr.newzaz.armacore.utils.APermissionUtils;
@@ -22,10 +23,10 @@ public class ABlockBreakEvent implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e){
-
+        PlayerListener pl = new PlayerListener();
         Player p = e.getPlayer();
         Block b = e.getBlock();
-        if(AModerationCommand.ModerationUUID.contains(p.getUniqueId())){
+        if(pl.getModerationUUID().contains(p.getUniqueId())){
             e.setCancelled(true);
             return;
         }

@@ -1,5 +1,6 @@
 package fr.newzaz.armacore.commands;
 
+import fr.newzaz.armacore.data.PlayerListener;
 import fr.newzaz.armacore.utils.AMessageUtils;
 import fr.newzaz.armacore.utils.APermissionUtils;
 import org.bukkit.Bukkit;
@@ -16,10 +17,7 @@ import java.util.UUID;
 
 public class AModerationCommand implements CommandExecutor {
 
-    public static ArrayList<UUID> ModerationUUID = new ArrayList<>();
-    public static ArrayList<UUID> FreezeUUID = new ArrayList<>();
-    public static ArrayList<UUID> playerUUIDVanish = new ArrayList<>();
-    HashMap<String, ItemStack[]> inventory = new HashMap<>();
+    PlayerListener pl = new PlayerListener();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -36,25 +34,25 @@ public class AModerationCommand implements CommandExecutor {
                 p.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%", APermissionUtils.PERMISSION_MODERATION));
                 return true;
             }
-            if (ModerationUUID.contains(p.getUniqueId())) {
-                if (playerUUIDVanish.contains(p.getUniqueId())) {
-                    playerUUIDVanish.remove(p.getUniqueId());
+            if (pl.getModerationUUID().contains(p.getUniqueId())) {
+                if (pl.getPlayerUUIDVanish().contains(p.getUniqueId())) {
+                    pl.getModerationUUID().remove(p.getUniqueId());
                     for (Player t : Bukkit.getOnlinePlayers()) {
                         t.showPlayer(p);
                     }
                     p.sendMessage("§9Vanish [§cOFF§9]");
                     return true;
                 }
-                ModerationUUID.remove(p.getUniqueId());
+                pl.getModerationUUID().remove(p.getUniqueId());
                 p.setInvulnerable(false);
                 Bukkit.broadcastMessage("§7[§a+§7] §c" + p.getName() + " §7vien d'arriver sur le serveur !");
                 p.sendMessage("§cVous avez quitter le mode modération !");
                 p.getInventory().clear();
-                p.getInventory().setContents(inventory.get(p.getName()));
+                p.getInventory().setContents(pl.getInventory().get(p.getName()));
                 return true;
             }
-            ModerationUUID.add(p.getUniqueId());
-            playerUUIDVanish.add(p.getUniqueId());
+            pl.getModerationUUID().add(p.getUniqueId());
+            pl.getPlayerUUIDVanish().add(p.getUniqueId());
 
             for (Player t : Bukkit.getOnlinePlayers()) {
                 t.hidePlayer(p);
@@ -63,7 +61,7 @@ public class AModerationCommand implements CommandExecutor {
             p.setInvulnerable(true);
             Bukkit.broadcastMessage("§7[§a+§7] §c" + p.getName() + " §7vien de quitter le serveur !");
             p.sendMessage("§aVous venez de rentrer dans le mode modération !");
-            inventory.put(p.getName(), p.getInventory().getContents());
+            pl.getInventory().put(p.getName(), p.getInventory().getContents());
             p.getInventory().clear();
             giveItem(p);
             return true;
@@ -74,8 +72,8 @@ public class AModerationCommand implements CommandExecutor {
                 p.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%", APermissionUtils.PERMISSION_VANISH));
                 return true;
             }
-            if (playerUUIDVanish.contains(p.getUniqueId())) {
-                playerUUIDVanish.remove(p.getUniqueId());
+            if (pl.getPlayerUUIDVanish().contains(p.getUniqueId())) {
+                pl.getPlayerUUIDVanish().remove(p.getUniqueId());
                 for (Player t : Bukkit.getOnlinePlayers()) {
                     t.showPlayer(p);
                 }
@@ -83,7 +81,7 @@ public class AModerationCommand implements CommandExecutor {
                 return true;
             }
 
-            playerUUIDVanish.add(p.getUniqueId());
+            pl.getPlayerUUIDVanish().add(p.getUniqueId());
 
             for (Player t : Bukkit.getOnlinePlayers()) {
                 t.hidePlayer(p);

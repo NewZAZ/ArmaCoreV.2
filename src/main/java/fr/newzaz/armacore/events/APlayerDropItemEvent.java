@@ -1,6 +1,7 @@
 package fr.newzaz.armacore.events;
 
 import fr.newzaz.armacore.commands.AModerationCommand;
+import fr.newzaz.armacore.data.PlayerListener;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,8 +11,8 @@ public class APlayerDropItemEvent implements Listener {
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent e){
-
-        if(AModerationCommand.ModerationUUID.contains(e.getPlayer().getUniqueId())){
+        PlayerListener pl = new PlayerListener();
+        if(pl.getModerationUUID().contains(e.getPlayer().getUniqueId())){
             e.setCancelled(true);
             return;
         }

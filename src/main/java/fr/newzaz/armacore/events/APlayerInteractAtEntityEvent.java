@@ -2,6 +2,7 @@ package fr.newzaz.armacore.events;
 
 import fr.newzaz.armacore.Main;
 import fr.newzaz.armacore.commands.AModerationCommand;
+import fr.newzaz.armacore.data.PlayerListener;
 import fr.newzaz.armacore.runnables.AFreezeRunnable;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,17 +24,17 @@ public class APlayerInteractAtEntityEvent implements Listener {
     @EventHandler
     public void onPlayerHitEntity(PlayerInteractAtEntityEvent e) {
         Player p = e.getPlayer();
-
-        if(AModerationCommand.ModerationUUID.contains(p.getUniqueId())){
+        PlayerListener pl = new PlayerListener();
+        if(pl.getModerationUUID().contains(p.getUniqueId())){
             if(p.getInventory().getItemInMainHand().hasItemMeta() && p.getInventory().getItemInMainHand().getType().equals(Material.PACKED_ICE)){
                 Player target = (Player) e.getRightClicked();
 
-                if(target != null && AModerationCommand.FreezeUUID.contains(target.getUniqueId())){
-                    AModerationCommand.FreezeUUID.remove(target.getUniqueId());
+                if(target != null && pl.getFreezeUUID().contains(target.getUniqueId())){
+                    pl.getFreezeUUID().remove(target.getUniqueId());
                     return;
                 }
                 if(target != null){
-                    AModerationCommand.FreezeUUID.add(target.getUniqueId());
+                    pl.getFreezeUUID().add(target.getUniqueId());
                     new AFreezeRunnable(p).runTaskTimer(plugin,20*15L,20*15L);
                 }
             }
