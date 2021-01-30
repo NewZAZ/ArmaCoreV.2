@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="ArmaCore:jar">
+    <output-path>$USER_HOME$/OneDrive/Bureau/serveur/plugins</output-path>
+    <root id="archive" name="ArmaCore.jar">
+      <element id="module-output" name="ArmaCore" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>

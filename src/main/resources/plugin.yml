@@ -1,0 +1,20 @@
+name: ArmaCore
+version: 1.0
+author: NewZ_AZ#7736
+main: fr.newzaz.armacore.Main
+commands:
+  mod:
+  money:
+  gmoney:
+  pay:
+  rmoney:
+  tempban:
+  unban:
+  tempmute:
+  unmute:
+  kick:
+  vanish:
+  gmc:
+  gms:
+  gmsp:
+  fly:
