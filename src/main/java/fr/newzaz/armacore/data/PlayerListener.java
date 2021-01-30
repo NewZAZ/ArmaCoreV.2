@@ -8,10 +8,10 @@ import java.util.UUID;
 
 public class PlayerListener {
 
-    public ArrayList<UUID> ModerationUUID = new ArrayList<>();
-    public ArrayList<UUID> FreezeUUID = new ArrayList<>();
-    public ArrayList<UUID> playerUUIDVanish = new ArrayList<>();
-    public HashMap<String, ItemStack[]> inventory = new HashMap<>();
+    private final ArrayList<UUID> ModerationUUID = new ArrayList<>();
+    private final ArrayList<UUID> FreezeUUID = new ArrayList<>();
+    private final ArrayList<UUID> playerUUIDVanish = new ArrayList<>();
+    private final HashMap<String, ItemStack[]> inventory = new HashMap<>();
 
     public ArrayList<UUID> getModerationUUID() {
         return ModerationUUID;
