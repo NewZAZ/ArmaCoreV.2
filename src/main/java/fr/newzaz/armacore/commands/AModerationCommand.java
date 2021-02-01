@@ -42,8 +42,8 @@ public class AModerationCommand implements CommandExecutor {
                 p.sendMessage("§cVous avez quitter le mode modération !");
                 p.getInventory().clear();
                 p.getInventory().setContents(pl.getInventory(p.getUniqueId()));
-
-            } else {
+                return true;
+            }
 
                 for (Player t : Bukkit.getOnlinePlayers()) {
                     t.hidePlayer(p);
@@ -52,13 +52,12 @@ public class AModerationCommand implements CommandExecutor {
                 pl.addPlayerInVanish(p.getUniqueId());
                 p.sendMessage("§9Vanish [§aON§9]");
                 p.setInvulnerable(true);
-                Bukkit.broadcastMessage("§7[§a+§7] §c" + p.getName() + " §7vien de quitter le serveur !");
+                Bukkit.broadcastMessage("§7[§c-§7] §c" + p.getName() + " §7vien de quitter le serveur !");
                 p.sendMessage("§aVous venez de rentrer dans le mode modération !" + pl.PlayerIsMod(p.getUniqueId()) + " | " + pl.PlayerIsVanished(p.getUniqueId()));
                 pl.setInventoryContents(p.getInventory().getContents(),p.getUniqueId());
                 p.getInventory().clear();
                 giveItem(p);
-            }
-            return true;
+                return true;
         }
 
         if (cmd.getName().equalsIgnoreCase("vanish")) {
