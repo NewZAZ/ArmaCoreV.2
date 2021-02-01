@@ -17,21 +17,21 @@ public class APlayerInteractAtEntityEvent implements Listener {
     }
 
     AModerationManager manager = new AModerationManager();
-    AModerationManager manager1 = new AModerationManager();
+    AModerationManager pl2 = new AModerationManager();
     @EventHandler
     public void onPlayerHitEntity(PlayerInteractAtEntityEvent e) {
         Player p = e.getPlayer();
 
-        if(manager.PlayerIsMod(p.getUniqueId())){
+        if(manager.playerIsInMod(p.getUniqueId())){
             if(p.getInventory().getItemInMainHand().hasItemMeta() && p.getInventory().getItemInMainHand().getType().equals(Material.PACKED_ICE)){
                 Player target = (Player) e.getRightClicked();
 
-                if(target != null && manager1.PlayerIsFreeze(target.getUniqueId())){
-                    manager1.removePlayerInFreeze(target.getUniqueId());
+                if(target != null && pl2.playerIsFreeze(target.getUniqueId())){
+                    pl2.removePlayerInFreeze(target.getUniqueId());
                     return;
                 }
                 if(target != null){
-                    manager1.addPlayerInFreeze(target.getUniqueId());
+                    pl2.addPlayerInFreeze(target.getUniqueId());
                     new AFreezeRunnable(p).runTaskTimer(plugin,20*15L,20*15L);
                 }
             }

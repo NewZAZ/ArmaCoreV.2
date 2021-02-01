@@ -11,7 +11,7 @@ public class APlayerDropItemEvent implements Listener {
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent e){
 
-        if(pl.PlayerIsMod(e.getPlayer().getUniqueId())){
+        if(pl.playerIsInMod(e.getPlayer().getUniqueId())){
             e.setCancelled(true);
             return;
         }

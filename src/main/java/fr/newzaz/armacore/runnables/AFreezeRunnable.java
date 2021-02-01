@@ -13,7 +13,7 @@ public class AFreezeRunnable extends BukkitRunnable {
     AModerationManager manager = new AModerationManager();
     @Override
     public void run() {
-        if (manager.PlayerIsFreeze(p.getUniqueId())) {
+        if (manager.playerIsFreeze(p.getUniqueId())) {
             this.p.sendMessage("§cVous êtes freeze venez discord : https://discord.gg/gdk5jAG");
         } else {
             this.cancel();

@@ -14,7 +14,7 @@ public class ABlockPlaceEvent implements Listener {
     public void onBlockPlace(BlockPlaceEvent e){
         Player p = e.getPlayer();
 
-        if(manager.PlayerIsMod(p.getUniqueId())){
+        if(manager.playerIsInMod(p.getUniqueId())){
             e.setCancelled(true);
             return;
         }

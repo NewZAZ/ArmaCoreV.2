@@ -8,43 +8,43 @@ import java.util.UUID;
 
 public class AModerationManager {
 
-    private final ArrayList<UUID> ModerationUUID;
-    private final ArrayList<UUID> FreezeUUID;
+    private final ArrayList<UUID> moderationUUID;
+    private final ArrayList<UUID> freezeUUID;
     private final ArrayList<UUID> playerUUIDVanish;
     private final HashMap<UUID, ItemStack[]> inventory;
 
     public AModerationManager() {
-        ModerationUUID = new ArrayList<>();
-        FreezeUUID = new ArrayList<>();
+        moderationUUID = new ArrayList<>();
+        freezeUUID = new ArrayList<>();
         playerUUIDVanish = new ArrayList<>();
         inventory = new HashMap<>();
     }
 
-    public boolean PlayerIsMod(UUID uuid){
-        return ModerationUUID.contains(uuid);
+    public boolean playerIsInMod(UUID uuid){
+        return moderationUUID.contains(uuid);
     }
 
     public void addPlayerInMod(UUID uuid){
-        this.ModerationUUID.add(uuid);
+        this.moderationUUID.add(uuid);
     }
 
     public void removePlayerInMod(UUID uuid){
-        this.ModerationUUID.remove(uuid);
+        this.moderationUUID.remove(uuid);
     }
 
-    public boolean PlayerIsFreeze(UUID uuid){
-        return this.FreezeUUID.contains(uuid);
+    public boolean playerIsFreeze(UUID uuid){
+        return this.freezeUUID.contains(uuid);
     }
 
     public void addPlayerInFreeze(UUID uuid){
-        this.FreezeUUID.add(uuid);
+        this.freezeUUID.add(uuid);
     }
 
     public void removePlayerInFreeze(UUID uuid){
-        this.FreezeUUID.remove(uuid);
+        this.freezeUUID.remove(uuid);
     }
 
-    public boolean PlayerIsVanished(UUID uuid){
+    public boolean playerIsVanished(UUID uuid){
         return this.playerUUIDVanish.contains(uuid);
     }
 

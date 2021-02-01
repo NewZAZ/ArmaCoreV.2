@@ -10,7 +10,7 @@ public class APlayerMoveEvent implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e){
 
-        if(manager.PlayerIsFreeze(e.getPlayer().getUniqueId())){
+        if(manager.playerIsFreeze(e.getPlayer().getUniqueId())){
             e.setCancelled(true);
         }
     }

@@ -26,7 +26,7 @@ public class ABlockBreakEvent implements Listener {
         Player p = e.getPlayer();
         Block b = e.getBlock();
 
-        if(manager.PlayerIsMod(p.getUniqueId())){
+        if(manager.playerIsInMod(p.getUniqueId())){
             e.setCancelled(true);
             return;
         }

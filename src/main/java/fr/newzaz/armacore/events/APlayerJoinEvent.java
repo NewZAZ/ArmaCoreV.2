@@ -15,7 +15,7 @@ public class APlayerJoinEvent implements Listener {
         Player p = e.getPlayer();
         for(Player pv : Bukkit.getOnlinePlayers()){
 
-            if(manager.PlayerIsVanished(pv.getPlayer().getUniqueId())){
+            if(manager.playerIsVanished(pv.getPlayer().getUniqueId())){
                 p.hidePlayer(pv);
             }
         }
