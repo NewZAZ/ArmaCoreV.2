@@ -1,8 +1,7 @@
 package fr.newzaz.armacore.events;
 
 import fr.newzaz.armacore.Main;
-import fr.newzaz.armacore.commands.AModerationCommand;
-import fr.newzaz.armacore.data.PlayerListener;
+import fr.newzaz.armacore.manager.AModerationManager;
 import fr.newzaz.armacore.runnables.ABBRunnable;
 import fr.newzaz.armacore.utils.AMessageUtils;
 import fr.newzaz.armacore.utils.APermissionUtils;
@@ -20,14 +19,14 @@ public class ABlockBreakEvent implements Listener {
     public ABlockBreakEvent(Main main) {
         this.plugin = main;
     }
-    PlayerListener pl = new PlayerListener();
+    AModerationManager manager = new AModerationManager();
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e){
 
         Player p = e.getPlayer();
         Block b = e.getBlock();
 
-        if(pl.PlayerIsMod(p.getUniqueId())){
+        if(manager.PlayerIsMod(p.getUniqueId())){
             e.setCancelled(true);
             return;
         }

@@ -1,14 +1,13 @@
 package fr.newzaz.armacore.events;
 
-import fr.newzaz.armacore.commands.AModerationCommand;
-import fr.newzaz.armacore.data.PlayerListener;
+import fr.newzaz.armacore.manager.AModerationManager;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class APlayerDropItemEvent implements Listener {
-    PlayerListener pl = new PlayerListener();
+    AModerationManager pl = new AModerationManager();
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent e){
 

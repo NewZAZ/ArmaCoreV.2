@@ -1,6 +1,6 @@
 package fr.newzaz.armacore.commands;
 
-import fr.newzaz.armacore.data.PlayerListener;
+import fr.newzaz.armacore.manager.AModerationManager;
 import fr.newzaz.armacore.utils.AMessageUtils;
 import fr.newzaz.armacore.utils.APermissionUtils;
 import org.bukkit.Bukkit;
@@ -11,13 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
-
 public class AModerationCommand implements CommandExecutor {
 
-    PlayerListener pl = new PlayerListener();
+    AModerationManager manager = new AModerationManager();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -35,26 +31,26 @@ public class AModerationCommand implements CommandExecutor {
                 p.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%", APermissionUtils.PERMISSION_MODERATION));
                 return true;
             }
-            if (pl.PlayerIsMod(p.getUniqueId())) {
-                pl.removePlayerInMod(p.getUniqueId());
+            if (manager.PlayerIsMod(p.getUniqueId())) {
+                manager.removePlayerInMod(p.getUniqueId());
                 p.setInvulnerable(false);
                 Bukkit.broadcastMessage("§7[§a+§7] §c" + p.getName() + " §7vien d'arriver sur le serveur !");
                 p.sendMessage("§cVous avez quitter le mode modération !");
                 p.getInventory().clear();
-                p.getInventory().setContents(pl.getInventory(p.getUniqueId()));
+                p.getInventory().setContents(manager.getInventory(p.getUniqueId()));
                 return true;
             }
 
                 for (Player t : Bukkit.getOnlinePlayers()) {
                     t.hidePlayer(p);
                 }
-                pl.addPlayerInMod(p.getUniqueId());
-                pl.addPlayerInVanish(p.getUniqueId());
+                manager.addPlayerInMod(p.getUniqueId());
+                manager.addPlayerInVanish(p.getUniqueId());
                 p.sendMessage("§9Vanish [§aON§9]");
                 p.setInvulnerable(true);
                 Bukkit.broadcastMessage("§7[§c-§7] §c" + p.getName() + " §7vien de quitter le serveur !");
-                p.sendMessage("§aVous venez de rentrer dans le mode modération !" + pl.PlayerIsMod(p.getUniqueId()) + " | " + pl.PlayerIsVanished(p.getUniqueId()));
-                pl.setInventoryContents(p.getInventory().getContents(),p.getUniqueId());
+                p.sendMessage("§aVous venez de rentrer dans le mode modération !" + manager.PlayerIsMod(p.getUniqueId()) + " | " + manager.PlayerIsVanished(p.getUniqueId()));
+                manager.setInventoryContents(p.getInventory().getContents(),p.getUniqueId());
                 p.getInventory().clear();
                 giveItem(p);
                 return true;
@@ -65,8 +61,8 @@ public class AModerationCommand implements CommandExecutor {
                 p.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%", APermissionUtils.PERMISSION_VANISH));
                 return true;
             }
-            if (pl.PlayerIsVanished(p.getUniqueId())) {
-                pl.removePlayerInVanish(p.getUniqueId());
+            if (manager.PlayerIsVanished(p.getUniqueId())) {
+                manager.removePlayerInVanish(p.getUniqueId());
                 for (Player t : Bukkit.getOnlinePlayers()) {
                     t.showPlayer(p);
                 }
@@ -74,7 +70,7 @@ public class AModerationCommand implements CommandExecutor {
                 return true;
             }
 
-            pl.addPlayerInVanish(p.getUniqueId());
+            manager.addPlayerInVanish(p.getUniqueId());
 
             for (Player t : Bukkit.getOnlinePlayers()) {
                 t.hidePlayer(p);

@@ -1,4 +1,4 @@
-package fr.newzaz.armacore.data;
+package fr.newzaz.armacore.manager;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class PlayerListener {
+public class AModerationManager {
 
     private final ArrayList<UUID> ModerationUUID;
     private final ArrayList<UUID> FreezeUUID;
     private final ArrayList<UUID> playerUUIDVanish;
     private final HashMap<UUID, ItemStack[]> inventory;
 
-    public PlayerListener() {
+    public AModerationManager() {
         ModerationUUID = new ArrayList<>();
         FreezeUUID = new ArrayList<>();
         playerUUIDVanish = new ArrayList<>();

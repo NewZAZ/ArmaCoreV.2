@@ -1,7 +1,6 @@
 package fr.newzaz.armacore.runnables;
 
-import fr.newzaz.armacore.commands.AModerationCommand;
-import fr.newzaz.armacore.data.PlayerListener;
+import fr.newzaz.armacore.manager.AModerationManager;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -11,10 +10,10 @@ public class AFreezeRunnable extends BukkitRunnable {
     public AFreezeRunnable(Player p) {
         this.p = p;
     }
-    PlayerListener pl = new PlayerListener();
+    AModerationManager manager = new AModerationManager();
     @Override
     public void run() {
-        if (pl.PlayerIsFreeze(p.getUniqueId())) {
+        if (manager.PlayerIsFreeze(p.getUniqueId())) {
             this.p.sendMessage("§cVous êtes freeze venez discord : https://discord.gg/gdk5jAG");
         } else {
             this.cancel();
