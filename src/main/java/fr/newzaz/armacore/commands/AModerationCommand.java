@@ -27,6 +27,7 @@ public class AModerationCommand implements CommandExecutor {
             return false;
         }
         Player p = (Player) sender;
+
         if (cmd.getName().equalsIgnoreCase("mod")) {
 
 
@@ -34,36 +35,29 @@ public class AModerationCommand implements CommandExecutor {
                 p.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%", APermissionUtils.PERMISSION_MODERATION));
                 return true;
             }
-            if (pl.getModerationUUID().contains(p.getUniqueId())) {
-                if (pl.getPlayerUUIDVanish().contains(p.getUniqueId())) {
-                    pl.getModerationUUID().remove(p.getUniqueId());
-                    for (Player t : Bukkit.getOnlinePlayers()) {
-                        t.showPlayer(p);
-                    }
-                    p.sendMessage("§9Vanish [§cOFF§9]");
-                    return true;
-                }
-                pl.getModerationUUID().remove(p.getUniqueId());
+            if (pl.PlayerIsMod(p.getUniqueId())) {
+                pl.removePlayerInMod(p.getUniqueId());
                 p.setInvulnerable(false);
                 Bukkit.broadcastMessage("§7[§a+§7] §c" + p.getName() + " §7vien d'arriver sur le serveur !");
                 p.sendMessage("§cVous avez quitter le mode modération !");
                 p.getInventory().clear();
-                p.getInventory().setContents(pl.getInventory().get(p.getName()));
-                return true;
-            }
-            pl.getModerationUUID().add(p.getUniqueId());
-            pl.getPlayerUUIDVanish().add(p.getUniqueId());
+                p.getInventory().setContents(pl.getInventory(p.getUniqueId()));
 
-            for (Player t : Bukkit.getOnlinePlayers()) {
-                t.hidePlayer(p);
+            } else {
+
+                for (Player t : Bukkit.getOnlinePlayers()) {
+                    t.hidePlayer(p);
+                }
+                pl.addPlayerInMod(p.getUniqueId());
+                pl.addPlayerInVanish(p.getUniqueId());
+                p.sendMessage("§9Vanish [§aON§9]");
+                p.setInvulnerable(true);
+                Bukkit.broadcastMessage("§7[§a+§7] §c" + p.getName() + " §7vien de quitter le serveur !");
+                p.sendMessage("§aVous venez de rentrer dans le mode modération !" + pl.PlayerIsMod(p.getUniqueId()) + " | " + pl.PlayerIsVanished(p.getUniqueId()));
+                pl.setInventoryContents(p.getInventory().getContents(),p.getUniqueId());
+                p.getInventory().clear();
+                giveItem(p);
             }
-            p.sendMessage("§9Vanish [§aON§9]");
-            p.setInvulnerable(true);
-            Bukkit.broadcastMessage("§7[§a+§7] §c" + p.getName() + " §7vien de quitter le serveur !");
-            p.sendMessage("§aVous venez de rentrer dans le mode modération !");
-            pl.getInventory().put(p.getName(), p.getInventory().getContents());
-            p.getInventory().clear();
-            giveItem(p);
             return true;
         }
 
@@ -72,8 +66,8 @@ public class AModerationCommand implements CommandExecutor {
                 p.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%", APermissionUtils.PERMISSION_VANISH));
                 return true;
             }
-            if (pl.getPlayerUUIDVanish().contains(p.getUniqueId())) {
-                pl.getPlayerUUIDVanish().remove(p.getUniqueId());
+            if (pl.PlayerIsVanished(p.getUniqueId())) {
+                pl.removePlayerInVanish(p.getUniqueId());
                 for (Player t : Bukkit.getOnlinePlayers()) {
                     t.showPlayer(p);
                 }
@@ -81,7 +75,7 @@ public class AModerationCommand implements CommandExecutor {
                 return true;
             }
 
-            pl.getPlayerUUIDVanish().add(p.getUniqueId());
+            pl.addPlayerInVanish(p.getUniqueId());
 
             for (Player t : Bukkit.getOnlinePlayers()) {
                 t.hidePlayer(p);
@@ -99,5 +93,7 @@ public class AModerationCommand implements CommandExecutor {
         p.getInventory().setItem(1, new ItemStack(Material.STICK));
 
     }
+
+
 
 }

@@ -8,11 +8,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
 public class APlayerDropItemEvent implements Listener {
-
+    PlayerListener pl = new PlayerListener();
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent e){
-        PlayerListener pl = new PlayerListener();
-        if(pl.getModerationUUID().contains(e.getPlayer().getUniqueId())){
+
+        if(pl.PlayerIsMod(e.getPlayer().getUniqueId())){
             e.setCancelled(true);
             return;
         }

@@ -20,13 +20,14 @@ public class ABlockBreakEvent implements Listener {
     public ABlockBreakEvent(Main main) {
         this.plugin = main;
     }
-
+    PlayerListener pl = new PlayerListener();
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e){
-        PlayerListener pl = new PlayerListener();
+
         Player p = e.getPlayer();
         Block b = e.getBlock();
-        if(pl.getModerationUUID().contains(p.getUniqueId())){
+
+        if(pl.PlayerIsMod(p.getUniqueId())){
             e.setCancelled(true);
             return;
         }

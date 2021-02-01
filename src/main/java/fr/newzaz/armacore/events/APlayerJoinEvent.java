@@ -9,13 +9,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class APlayerJoinEvent implements Listener {
-
+    PlayerListener pl = new PlayerListener();
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
-        PlayerListener pl = new PlayerListener();
+
         Player p = e.getPlayer();
         for(Player pv : Bukkit.getOnlinePlayers()){
-            if(pl.getPlayerUUIDVanish().contains(pv.getUniqueId())){
+
+            if(pl.PlayerIsVanished(pv.getPlayer().getUniqueId())){
                 p.hidePlayer(pv);
             }
         }

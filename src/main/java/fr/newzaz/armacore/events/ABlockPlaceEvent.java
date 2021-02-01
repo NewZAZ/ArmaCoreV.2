@@ -10,12 +10,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 public class ABlockPlaceEvent implements Listener {
-
+    PlayerListener pl = new PlayerListener();
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e){
         Player p = e.getPlayer();
-        PlayerListener pl = new PlayerListener();
-        if(pl.getModerationUUID().contains(p.getUniqueId())){
+
+        if(pl.PlayerIsMod(p.getUniqueId())){
             e.setCancelled(true);
             return;
         }

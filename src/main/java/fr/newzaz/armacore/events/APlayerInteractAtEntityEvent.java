@@ -20,21 +20,22 @@ public class APlayerInteractAtEntityEvent implements Listener {
         this.plugin = plugin;
     }
 
-
+    PlayerListener pl = new PlayerListener();
+    PlayerListener pl2 = new PlayerListener();
     @EventHandler
     public void onPlayerHitEntity(PlayerInteractAtEntityEvent e) {
         Player p = e.getPlayer();
-        PlayerListener pl = new PlayerListener();
-        if(pl.getModerationUUID().contains(p.getUniqueId())){
+
+        if(pl.PlayerIsMod(p.getUniqueId())){
             if(p.getInventory().getItemInMainHand().hasItemMeta() && p.getInventory().getItemInMainHand().getType().equals(Material.PACKED_ICE)){
                 Player target = (Player) e.getRightClicked();
 
-                if(target != null && pl.getFreezeUUID().contains(target.getUniqueId())){
-                    pl.getFreezeUUID().remove(target.getUniqueId());
+                if(target != null && pl2.PlayerIsFreeze(target.getUniqueId())){
+                    pl2.removePlayerInFreeze(target.getUniqueId());
                     return;
                 }
                 if(target != null){
-                    pl.getFreezeUUID().add(target.getUniqueId());
+                    pl2.addPlayerInFreeze(target.getUniqueId());
                     new AFreezeRunnable(p).runTaskTimer(plugin,20*15L,20*15L);
                 }
             }

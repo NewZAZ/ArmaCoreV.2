@@ -7,11 +7,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class APlayerMoveEvent implements Listener {
-
+    PlayerListener pl = new PlayerListener();
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e){
-        PlayerListener pl = new PlayerListener();
-        if(pl.getFreezeUUID().contains(e.getPlayer().getUniqueId())){
+
+        if(pl.PlayerIsFreeze(e.getPlayer().getUniqueId())){
             e.setCancelled(true);
         }
     }

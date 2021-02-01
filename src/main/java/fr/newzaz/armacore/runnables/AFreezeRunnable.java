@@ -7,14 +7,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class AFreezeRunnable extends BukkitRunnable {
     Player p;
-    PlayerListener pl = new PlayerListener();
+
     public AFreezeRunnable(Player p) {
         this.p = p;
     }
-
+    PlayerListener pl = new PlayerListener();
     @Override
     public void run() {
-        if (pl.getFreezeUUID().contains(p.getUniqueId())) {
+        if (pl.PlayerIsFreeze(p.getUniqueId())) {
             this.p.sendMessage("§cVous êtes freeze venez discord : https://discord.gg/gdk5jAG");
         } else {
             this.cancel();
