@@ -17,6 +17,7 @@ public class APlayerJoinEvent implements Listener {
 
             if(manager.playerIsVanished(pv.getPlayer().getUniqueId())){
                 p.hidePlayer(pv);
+                return;
             }
         }
         if(p.isOp()){

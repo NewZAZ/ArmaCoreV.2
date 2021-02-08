@@ -45,6 +45,10 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new APlayerDropItemEvent(),this);
         pm.registerEvents(new APlayerJoinEvent(),this);
         pm.registerEvents(new APlayerInteractAtEntityEvent(this),this);
+        pm.registerEvents(new APlayerQuitEvent(),this);
+        pm.registerEvents(new AInventoryClickEvent(),this);
+        pm.registerEvents(new APlayerLoginEvent(),this);
+        pm.registerEvents(new APlayerMoveEvent(),this);
     }
 
 

@@ -17,22 +17,33 @@ public class APlayerInteractAtEntityEvent implements Listener {
     }
 
     AModerationManager manager = new AModerationManager();
-    AModerationManager pl2 = new AModerationManager();
+    AModerationManager manager2 = new AModerationManager();
     @EventHandler
     public void onPlayerHitEntity(PlayerInteractAtEntityEvent e) {
         Player p = e.getPlayer();
 
+        if(p.getInventory().getItemInMainHand() == null)return;
+        if(!p.getInventory().getItemInMainHand().hasItemMeta())return;
+        Player target = (Player) e.getRightClicked();
         if(manager.playerIsInMod(p.getUniqueId())){
-            if(p.getInventory().getItemInMainHand().hasItemMeta() && p.getInventory().getItemInMainHand().getType().equals(Material.PACKED_ICE)){
-                Player target = (Player) e.getRightClicked();
+            if(p.getInventory().getItemInMainHand().getType().equals(Material.PACKED_ICE)){
 
-                if(target != null && pl2.playerIsFreeze(target.getUniqueId())){
-                    pl2.removePlayerInFreeze(target.getUniqueId());
+
+                if(target != null && manager2.playerIsFreeze(target.getUniqueId())){
+                    manager2.removePlayerInFreeze(target.getUniqueId());
+                    p.sendMessage("§cVous venez d'unfreeze "+ target.getName());
                     return;
                 }
                 if(target != null){
-                    pl2.addPlayerInFreeze(target.getUniqueId());
-                    new AFreezeRunnable(p).runTaskTimer(plugin,20*15L,20*15L);
+                    manager2.addPlayerInFreeze(target.getUniqueId());
+                    p.sendMessage("§aVous venez de freeze "+ target.getName());
+                    new AFreezeRunnable(target).runTaskTimer(plugin,20*15L,20*15L);
+                    return;
+                }
+            }
+            if(p.getInventory().getItemInMainHand().getType().equals(Material.STICK)){
+                if(target != null){
+                    p.openInventory(target.getInventory());
                 }
             }
         }

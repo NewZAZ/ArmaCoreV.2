@@ -1,6 +1,9 @@
 package fr.newzaz.armacore.events;
 
 import fr.newzaz.armacore.data.APlayerData;
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +17,7 @@ public class AAsyncPlayerChatEvent implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e){
         Player p = e.getPlayer();
+
 
         APlayerData data = new APlayerData(p.getName());
 

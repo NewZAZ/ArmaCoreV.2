@@ -1,6 +1,8 @@
 package fr.newzaz.armacore.commands;
 
 import fr.newzaz.armacore.data.APlayerData;
+import fr.newzaz.armacore.utils.AMessageUtils;
+import fr.newzaz.armacore.utils.APermissionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -16,8 +18,8 @@ public class ASanctionCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (cmd.getName().equalsIgnoreCase("tempban")) {
-            if (!sender.hasPermission("ArmaCore.tempban")) {
-                sender.sendMessage("§cVous n'avez pas la permission de faire ceci (ArmaCore.tempban)");
+            if(!sender.hasPermission(APermissionUtils.PERMISSION_TEMPBAN) || !sender.hasPermission(APermissionUtils.PERMISSION_ALL) || !sender.isOp()){
+                sender.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%",APermissionUtils.PERMISSION_TEMPBAN));
                 return true;
             }
 
@@ -85,8 +87,8 @@ public class ASanctionCommand implements CommandExecutor {
 
         if(cmd.getName().equalsIgnoreCase("unban")) {
 
-            if (!sender.hasPermission("ArmaCore.unban")) {
-                sender.sendMessage("§cVous n'avez pas la permission de faire ceci (ArmaCore.unban)");
+            if(!sender.hasPermission(APermissionUtils.PERMISSION_UNBAN) || !sender.hasPermission(APermissionUtils.PERMISSION_ALL) || !sender.isOp()){
+                sender.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%",APermissionUtils.PERMISSION_UNBAN));
                 return true;
             }
 
@@ -121,8 +123,8 @@ public class ASanctionCommand implements CommandExecutor {
 
 
         if (cmd.getName().equalsIgnoreCase("tempmute")) {
-            if (!sender.hasPermission("ArmaCore.tempmute")) {
-                sender.sendMessage("§cVous n'avez pas la permission de faire ceci (ArmaCore.tempmute)");
+            if(!sender.hasPermission(APermissionUtils.PERMISSION_TEMPMUTE) || !sender.hasPermission(APermissionUtils.PERMISSION_ALL) || !sender.isOp()){
+                sender.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%",APermissionUtils.PERMISSION_TEMPMUTE));
                 return true;
             }
 
@@ -186,8 +188,8 @@ public class ASanctionCommand implements CommandExecutor {
 
         if(cmd.getName().equalsIgnoreCase("unmute")) {
 
-            if (!sender.hasPermission("ArmaCore.unmute")) {
-                sender.sendMessage("§cVous n'avez pas la permission de faire ceci (ArmaCore.unmute)");
+            if(!sender.hasPermission(APermissionUtils.PERMISSION_UNMUTE) || !sender.hasPermission(APermissionUtils.PERMISSION_ALL) || !sender.isOp()){
+                sender.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%",APermissionUtils.PERMISSION_UNMUTE));
                 return true;
             }
 
@@ -221,8 +223,8 @@ public class ASanctionCommand implements CommandExecutor {
         }
 
         if(cmd.getName().equalsIgnoreCase("kick")){
-            if (!sender.hasPermission("ArmaCore.kick")) {
-                sender.sendMessage("§cVous n'avez pas la permission de faire ceci (ArmaCore.kick)");
+            if(!sender.hasPermission(APermissionUtils.PERMISSION_KICK) || !sender.hasPermission(APermissionUtils.PERMISSION_ALL) || !sender.isOp()){
+                sender.sendMessage(AMessageUtils.MESSAGE_NOPERMISSION.replaceAll("%permission%",APermissionUtils.PERMISSION_KICK));
                 return true;
             }
 

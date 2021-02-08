@@ -1,5 +1,6 @@
 package fr.newzaz.armacore.data;
 
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -9,15 +10,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class APlayerData {
-
+    //Sanction
     private final File file = new File("plugins/ArmaCore","sanction.yml");
     private final FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+    //Money
+    private final File fileMoney = new File("plugins/ArmaCore","money.yml");
+    private final FileConfiguration configMoney = YamlConfiguration.loadConfiguration(file);
+
     private String player;
 
 
-
-    public APlayerData() {
-    }
 
     public APlayerData(String player) {
         this.player = player;
@@ -27,9 +30,21 @@ public class APlayerData {
         return file.exists();
     }
 
+    public boolean moneyExist(){
+        return fileMoney.exists();
+    }
+
     public void createFile(){
         try {
             config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createFileMoney(){
+        try {
+            configMoney.save(fileMoney);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,5 +116,33 @@ public class APlayerData {
 
     public boolean isTempmuted(){
         return config.getBoolean(player+".tempmute.istempbanned");
+    }
+
+
+    public void setMoney(int amount) throws IOException {
+        configMoney.set(player + ".balance", amount);
+        configMoney.save(fileMoney);
+    }
+
+    public void addMoney(int amount) throws IOException {
+        configMoney.set(player + ".balance", getMoney() + amount);
+        configMoney.save(fileMoney);
+    }
+
+    public void removeMoney(int amount) throws IOException {
+        configMoney.set(player + ".balance", getMoney() - amount);
+        configMoney.save(fileMoney);
+    }
+
+    public void resetMoney() throws IOException {
+        configMoney.set(player + ".balance", 0);
+        configMoney.save(fileMoney);
+    }
+
+    public int getMoney(){
+        if (configMoney.get(player + ".balance") != null) {
+            return configMoney.getInt(player + ".balance");
+        }
+        return 0;
     }
 }

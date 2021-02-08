@@ -8,10 +8,10 @@ import java.util.UUID;
 
 public class AModerationManager {
 
-    private final ArrayList<UUID> moderationUUID;
-    private final ArrayList<UUID> freezeUUID;
-    private final ArrayList<UUID> playerUUIDVanish;
-    private final HashMap<UUID, ItemStack[]> inventory;
+    private ArrayList<UUID> moderationUUID;
+    private ArrayList<UUID> freezeUUID;
+    private ArrayList<UUID> playerUUIDVanish;
+    private HashMap<UUID, ItemStack[]> inventory;
 
     public AModerationManager() {
         moderationUUID = new ArrayList<>();
@@ -21,7 +21,7 @@ public class AModerationManager {
     }
 
     public boolean playerIsInMod(UUID uuid){
-        return moderationUUID.contains(uuid);
+        return this.moderationUUID.contains(uuid);
     }
 
     public void addPlayerInMod(UUID uuid){

@@ -1,22 +1,17 @@
 package fr.newzaz.armacore.commands;
 
+import fr.newzaz.armacore.data.APlayerData;
 import fr.newzaz.armacore.utils.APermissionUtils;
 import fr.newzaz.armacore.utils.IntegerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.io.IOException;
 
 public class AMoneyCommand implements CommandExecutor {
-    File file = new File("plugins/ArmaCore", "money.yml");
-    FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -27,14 +22,16 @@ public class AMoneyCommand implements CommandExecutor {
         }
         Player p = (Player) sender;
 
+        APlayerData data = new APlayerData(p.getName());
 
+        if (!data.moneyExist()) {
+            sender.sendMessage("§c(1) Une erreur vien de se produire veuillez contacter le développeur : NewZ_AZ#7736");
+            data.createFileMoney();
+            return true;
+        }
         if (cmd.getName().equalsIgnoreCase("money")) {
             if (args.length == 0) {
-                try {
-                    p.sendMessage("§aBalance : " + getMoney(p.getName()) + "€");
-                } catch (IOException | InvalidConfigurationException e) {
-                    e.printStackTrace();
-                }
+                p.sendMessage("§aBalance : " + data.getMoney() + "€");
                 return false;
             }
             if (args.length == 1) {
@@ -44,20 +41,8 @@ public class AMoneyCommand implements CommandExecutor {
                     p.sendMessage("§cArguments: /money [Player]");
                     return false;
                 }
-                if (config.get(target.getName() + ".balance") == null) {
-                    config.set(target.getName() + ".balance", 0);
-                    try {
-                        config.save(file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return false;
-                }
-                try {
-                    p.sendMessage("§a" + target.getName() + " Balance's : " + getMoney(target.getName()) + "€");
-                } catch (IOException | InvalidConfigurationException e) {
-                    e.printStackTrace();
-                }
+                APlayerData dataTarget = new APlayerData(target.getName());
+                p.sendMessage("§a" + target.getName() + " Balance's : " + dataTarget.getMoney() + "€");
                 return true;
             }
         }
@@ -71,9 +56,9 @@ public class AMoneyCommand implements CommandExecutor {
                 if (args.length == 1) {
                     if (IntegerUtils.isInteger(args[0])) {
                         try {
-                            setMoney(p.getName(), Integer.parseInt(args[0]));
+                            data.setMoney(Integer.parseInt(args[0]));
                             p.sendMessage("§aTu vien de te donner " + Integer.parseInt(args[0]) + "€");
-                        } catch (IOException | InvalidConfigurationException e) {
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                         return true;
@@ -85,13 +70,13 @@ public class AMoneyCommand implements CommandExecutor {
                         p.sendMessage("§cArguments: /gmoney [Player] (Amount)");
                         return false;
                     }
-
+                    APlayerData dataTarget = new APlayerData(target.getName());
                     if (IntegerUtils.isInteger(args[1])) {
                         try {
-                            setMoney(target.getName(), Integer.parseInt(args[1]));
+                            dataTarget.setMoney(Integer.parseInt(args[1]));
                             target.sendMessage("§aUn §cAdministrateur §avien de te donner " + Integer.parseInt(args[1]) + "€");
                             p.sendMessage("§aTu vien de donner " + Integer.parseInt(args[1]) + "€ à " + target.getName());
-                        } catch (IOException | InvalidConfigurationException e) {
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                         return true;
@@ -111,14 +96,15 @@ public class AMoneyCommand implements CommandExecutor {
                     p.sendMessage("§cArguments: /gmoney [Player] (Amount)");
                     return false;
                 }
+                APlayerData dataTarget = new APlayerData(target.getName());
 
                 if (IntegerUtils.isInteger(args[1])) {
                     try {
-                        addMoney(target.getName(), Integer.parseInt(args[1]));
-                        removeMoney(p.getName(), Integer.parseInt(args[1]));
+                        dataTarget.addMoney(Integer.parseInt(args[1]));
+                        dataTarget.removeMoney(Integer.parseInt(args[1]));
                         target.sendMessage("§aTu vien de recevoir " + Integer.parseInt(args[1]) + "€ de " + p.getName());
                         p.sendMessage("§cTu vien d'envoyer " + Integer.parseInt(args[1]) + "€ à " + target.getName());
-                    } catch (IOException | InvalidConfigurationException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     return true;
@@ -138,9 +124,11 @@ public class AMoneyCommand implements CommandExecutor {
                         p.sendMessage("§cArguments: /rmoney [Player] ");
                         return false;
                     }
+                    APlayerData dataTarget = new APlayerData(target.getName());
+
                     try {
-                        resetMoney(target.getName());
-                    } catch (IOException | InvalidConfigurationException e) {
+                        dataTarget.resetMoney();
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     target.sendMessage("§cTon compte a été reset par un administrateur !");
@@ -152,37 +140,5 @@ public class AMoneyCommand implements CommandExecutor {
         return false;
     }
 
-
-    public void setMoney(String player, int amount) throws IOException, InvalidConfigurationException {
-        config.set(player + ".balance", amount);
-        config.save(file);
-        config.load(file);
-    }
-
-    public void addMoney(String player, int amount) throws IOException, InvalidConfigurationException {
-        config.set(player + ".balance", getMoney(player) + amount);
-        config.save(file);
-        config.load(file);
-    }
-
-    public void removeMoney(String player, int amount) throws IOException, InvalidConfigurationException {
-        config.set(player + ".balance", getMoney(player) - amount);
-        config.save(file);
-        config.load(file);
-    }
-
-    public void resetMoney(String player) throws IOException, InvalidConfigurationException {
-        config.set(player + ".balance", 0);
-        config.save(file);
-        config.load(file);
-    }
-
-    public int getMoney(String player) throws IOException, InvalidConfigurationException {
-        if (config.get(player + ".balance") != null) {
-            config.load(file);
-            return config.getInt(player + ".balance");
-        }
-        return 0;
-    }
 
 }

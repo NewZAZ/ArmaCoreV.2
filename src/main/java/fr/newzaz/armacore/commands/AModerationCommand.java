@@ -40,18 +40,11 @@ public class AModerationCommand implements CommandExecutor {
                 p.getInventory().setContents(manager.getInventory(p.getUniqueId()));
                 return true;
             }
-
-                for (Player t : Bukkit.getOnlinePlayers()) {
-                    t.hidePlayer(p);
-                }
                 manager.addPlayerInMod(p.getUniqueId());
-                manager.addPlayerInVanish(p.getUniqueId());
-                p.sendMessage("§9Vanish [§aON§9]");
                 p.setInvulnerable(true);
                 Bukkit.broadcastMessage("§7[§c-§7] §c" + p.getName() + " §7vien de quitter le serveur !");
                 p.sendMessage("§aVous venez de rentrer dans le mode modération !");
                 manager.setInventoryContents(p.getInventory().getContents(),p.getUniqueId());
-                p.getInventory().clear();
                 giveItem(p);
                 return true;
         }
@@ -83,9 +76,10 @@ public class AModerationCommand implements CommandExecutor {
     }
 
     private void giveItem(Player p) {
-
+        p.getInventory().clear();
         p.getInventory().setItem(0, new ItemStack(Material.PACKED_ICE));
         p.getInventory().setItem(1, new ItemStack(Material.STICK));
+        p.getInventory().setItem(2, new ItemStack(Material.SLIME_BALL));
 
     }
 

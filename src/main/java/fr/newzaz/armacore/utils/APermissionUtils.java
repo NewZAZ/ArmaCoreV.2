@@ -13,4 +13,9 @@ public class APermissionUtils {
     public static final String PERMISSION_GAMEMODE_SURVIVAL = "ArmaCore.gamemode.survival";
     public static final String PERMISSION_FLY = "ArmaCore.fly";
     public static final String PERMISSION_VANISH = "ArmaCore.vanish";
+    public static final String PERMISSION_KICK = "ArmaCore.kick";
+    public static final String PERMISSION_TEMPBAN = "ArmaCore.tempban";
+    public static final String PERMISSION_TEMPMUTE = "ArmaCore.tempmute";
+    public static final String PERMISSION_UNBAN = "ArmaCore.unban";
+    public static final String PERMISSION_UNMUTE = "ArmaCore.unmute";
 }

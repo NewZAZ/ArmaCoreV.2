@@ -26,14 +26,17 @@ public class AFlyCommand implements CommandExecutor {
 
 
             if (args.length == 0) {
-                if (p.isFlying()) {
-                    p.setFlying(false);
-                    p.sendMessage("§9Statut Fly : [§cOFF§9]");
+                if (p.getAllowFlight()) {
+                        p.setAllowFlight(false);
+                        p.sendMessage("§9Statut Fly : [§cOFF§9]");
+                        return true;
+                    
+                }else {
+                    p.setAllowFlight(true);
+                    p.sendMessage("§9Statut Fly : [§aON§9]");
                     return true;
                 }
-                p.setFlying(true);
-                p.sendMessage("§9Statut Fly : [§aON§9]");
-                return true;
+
             }
             if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
@@ -43,17 +46,21 @@ public class AFlyCommand implements CommandExecutor {
                     return true;
                 }
 
-                if (target.isFlying()) {
-                    target.setFlying(false);
-                    target.sendMessage("§9Statut Fly : [§cOFF§9]");
-                    p.sendMessage("§9Statut Fly de " + target + " : [§cOFF§9]");
+                if (target.getAllowFlight()) {
+                    if(target.isFlying()) {
+                        target.setFlying(false);
+                        p.sendMessage("§9Statut Fly : [§cOFF§9]");
+                        p.sendMessage("§9Statut Fly de "+target.getName() +" : [§cOFF§9]");
+                        return true;
+                    }
+                    target.setFlying(true);
+                    target.sendMessage("§9Statut Fly : [§aON§9]");
+                    p.sendMessage("§9Statut Fly de "+target.getName() +" : [§aON§9]");
+                    return true;
+                }else {
+                    target.setAllowFlight(true);
                     return true;
                 }
-
-                target.setFlying(true);
-                target.sendMessage("§9Statut Fly : [§aON§9]");
-                p.sendMessage("§9Statut Fly de " + target + " : [§aON§9]");
-                return true;
 
             }
         }
